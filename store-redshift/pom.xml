@@ -12,6 +12,8 @@
   <artifactId>soql-redshift-adapter-store</artifactId>
   <properties>
     <guava.version>33.0.0-jre</guava.version>
+    <quarkus.container-image.name>store-redshift</quarkus.container-image.name>
+    <quarkus.container-image.tag>dev</quarkus.container-image.tag>
   </properties>
   <dependencies>
     <dependency>

@@ -13,6 +13,8 @@
   <properties>
     <build-helper-plugin.version>3.4.0</build-helper-plugin.version>
     <openapi-generator.version>7.0.0</openapi-generator.version>
+    <quarkus.container-image.name>server-redshift</quarkus.container-image.name>
+    <quarkus.container-image.tag>dev</quarkus.container-image.tag>
   </properties>
   <dependencies>
     <dependency>
