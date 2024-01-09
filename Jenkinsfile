@@ -70,9 +70,9 @@ pipeline {
 
             script {
               dockerize_server_redshift.setPushToLatest(false)
-              dockerize_server_redshift.specify_tag_and_push("${server_redshift}:latest", env.VERSION, "all")
+              dockerize_server_redshift.specify_tag_and_push("${server_redshift}:dev", env.VERSION, "all")
               dockerize_store_redshift.setPushToLatest(false)
-              dockerize_store_redshift.specify_tag_and_push("${store_redshift}:latest", env.VERSION, "all")
+              dockerize_store_redshift.specify_tag_and_push("${store_redshift}:dev", env.VERSION, "all")
             }
           }
           post {
