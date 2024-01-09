@@ -40,7 +40,7 @@ pipeline {
           steps {
             githubNotify context: 'unit', description: 'Running "mvn test"', status: 'PENDING'
             withCredentials([usernamePassword(credentialsId: 'shared-eng-artifactory-creds', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
-              sh 'mvn test'
+              sh 'mvn test -Dartifactory.username=${ARTIFACTORY_USERNAME} -Dartifactory.password=${ARTIFACTORY_PASSWORD} -s ../settings.xml'
             }
           }
           post {
@@ -65,7 +65,7 @@ pipeline {
         stage('Build and Push Docker Image') {
           steps {
             withCredentials([usernamePassword(credentialsId: 'shared-eng-artifactory-creds', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
-              sh 'mvn install -DskipTests=false'
+              sh 'mvn install -DskipTests=false -Dartifactory.username=${ARTIFACTORY_USERNAME} -Dartifactory.password=${ARTIFACTORY_PASSWORD} -s ../settings.xml'
             }
 
             script {
