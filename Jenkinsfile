@@ -28,6 +28,7 @@ pipeline {
   }
   triggers {
     issueCommentTrigger('^retest$')
+    cron('H 23 * * 7')
   }
   environment {
     SERVICE = 'soql-redshift-adapter'
