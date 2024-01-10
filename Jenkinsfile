@@ -70,7 +70,7 @@ pipeline {
           }
           post {
             failure {
-              teamsMessage(message: "[${env.service}](${env.BUILD_URL}): Building and pushing docker image has failed", webhookCredentialID: WEBHOOK_ID)
+              teamsMessage(message: "[${env.service}](${env.BUILD_URL}): Building", webhookCredentialID: WEBHOOK_ID)
             }
           }
         }
@@ -85,7 +85,7 @@ pipeline {
           }
           post {
             failure {
-              teamsMessage(message: "[${env.service}](${env.BUILD_URL}): Building and pushing docker image has failed", webhookCredentialID: WEBHOOK_ID)
+              teamsMessage(message: "[${env.service}](${env.BUILD_URL}): Pushing docker image has failed", webhookCredentialID: WEBHOOK_ID)
             }
           }
         }
