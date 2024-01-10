@@ -64,7 +64,7 @@ pipeline {
         stage('Maven Build') {
           steps {
             withCredentials([usernamePassword(credentialsId: 'shared-eng-artifactory-creds', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
-              sh 'mvn install -DskipTests=true -Dartifactory.username=${ARTIFACTORY_USERNAME} -Dartifactory.password=${ARTIFACTORY_PASSWORD} -s settings.xml'
+              sh 'mvn install -DskipTests=false -Dartifactory.username=${ARTIFACTORY_USERNAME} -Dartifactory.password=${ARTIFACTORY_PASSWORD} -s settings.xml'
             }
           }
           post {
