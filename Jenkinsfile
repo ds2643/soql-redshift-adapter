@@ -18,7 +18,7 @@ pipeline {
   parameters {
     string(name: 'AGENT', defaultValue: 'worker-java17', description: 'Which build agent to use?')
     string(name: 'BRANCH_SPECIFIER', defaultValue: 'origin/main', description: 'Use this branch for building the artifact.')
-    string(name: 'RELEASE_NAME', defaultValue: 'STAGING', description: 'The docker tag to use.')
+    string(name: 'RELEASE_NAME', defaultValue: 'STAGING', description: 'The docker tag to use. Leave blank to not push the docker image.')
   }
   agent {
     label params.AGENT
@@ -74,6 +74,7 @@ pipeline {
           }
         }
         stage('Push Docker Images') {
+          when { not { expression { return params.RELEASE_NAME == ""}}}
           steps {
             script {
               dockerize_server_redshift.setPushToLatest(false)
