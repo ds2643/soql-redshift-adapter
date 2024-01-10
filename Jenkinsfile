@@ -18,6 +18,7 @@ pipeline {
   parameters {
     string(name: 'AGENT', defaultValue: 'worker-java17', description: 'Which build agent to use?')
     string(name: 'BRANCH_SPECIFIER', defaultValue: 'origin/main', description: 'Use this branch for building the artifact.')
+    string(name: 'RELEASE_NAME', defaultValue: 'STAGING', description: 'The docker tag to use.')
   }
   agent {
     label params.AGENT
@@ -58,21 +59,26 @@ pipeline {
       }
     }
     stage('Build:') {
-      when {
-        not { expression { isPr } }
-      }
+      when {not { expression { isPr } }}
       stages {
-        stage('Build and Push Docker Image') {
+        stage('Maven Build') {
           steps {
             withCredentials([usernamePassword(credentialsId: 'shared-eng-artifactory-creds', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD')]) {
               sh 'mvn install -DskipTests=true -Dartifactory.username=${ARTIFACTORY_USERNAME} -Dartifactory.password=${ARTIFACTORY_PASSWORD} -s settings.xml'
             }
-
+          }
+          post {
+            failure {
+              teamsMessage(message: "[${env.service}](${env.BUILD_URL}): Building and pushing docker image has failed", webhookCredentialID: WEBHOOK_ID)
+            }
+          }
+        }
+        stage('Push Docker Images') {
+          steps {
             script {
               dockerize_server_redshift.setPushToLatest(false)
-              dockerize_server_redshift.specify_tag_and_push("${server_redshift}:dev", env.VERSION, "all")
-              dockerize_store_redshift.setPushToLatest(false)
-              dockerize_store_redshift.specify_tag_and_push("${store_redshift}:dev", env.VERSION, "all")
+              dockerize_server_redshift.specify_tag_and_push("${server_redshift}:dev", params.RELEASE_NAME, "all")
+              dockerize_store_redshift.specify_tag_and_push("${store_redshift}:dev", params.RELEASE_NAME, "all")
             }
           }
           post {
