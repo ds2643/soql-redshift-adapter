@@ -1,7 +1,6 @@
 package com.socrata.common.sqlizer
 
 import scala.util._
-
 import io.agroal.api.AgroalDataSource
 
 object Utils {

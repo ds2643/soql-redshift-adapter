@@ -1,5 +1,6 @@
 package com
 
+import com.socrata.common.Profiles
 import com.socrata.common.db.meta.entity.Dataset
 import com.socrata.common.db.meta.repository.DatasetRepository
 import com.socrata.datacoordinator.id.CopyId
@@ -9,7 +10,7 @@ import com.socrata.datacoordinator.secondary.{
   LifecycleStage
 }
 import io.quarkus.logging.Log
-import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.{QuarkusTest, TestProfile}
 import jakarta.inject.Inject
 import jakarta.transaction.Transactional
 import org.joda.time.DateTime
@@ -17,6 +18,7 @@ import org.junit.jupiter.api.Test
 
 import scala.util.{Failure, Success, Try}
 
+@TestProfile(classOf[Profiles.Unit])
 @QuarkusTest
 class TransactionTest {
   @Inject

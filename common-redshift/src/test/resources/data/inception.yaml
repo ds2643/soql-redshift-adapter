@@ -1,0 +1,5 @@
+properties:
+  one: 'one value'
+  two: 'two value'
+  three:
+    four: 'four value'

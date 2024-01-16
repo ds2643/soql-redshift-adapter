@@ -1,14 +1,13 @@
 package com.socrata.common.sqlizer
 
-import org.joda.time.{DateTime, LocalDateTime, LocalDate, LocalTime}
-import org.joda.time.format.{DateTimeFormat}
+import org.joda.time.{DateTime, LocalDate, LocalDateTime, LocalTime}
+import org.joda.time.format.DateTimeFormat
 import com.rojoma.json.v3.interpolation._
 import com.rojoma.json.v3.ast._
-
 import com.socrata.common.sqlizer.metatypes._
-
 import com.socrata.common._
 import com.vividsolutions.jts.geom.{
+  Coordinate,
   LineString,
   LinearRing,
   MultiLineString,
@@ -16,25 +15,22 @@ import com.vividsolutions.jts.geom.{
   MultiPolygon,
   Point,
   Polygon,
-  Coordinate,
   PrecisionModel
 }
-
 import com.socrata.soql.types._
 import com.socrata.soql.analyzer2._
-
 import io.agroal.api.AgroalDataSource
 import io.quarkus.agroal.DataSource
-import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.{QuarkusTest, TestProfile}
 import jakarta.inject.Inject
-import org.junit.jupiter.api.{Test}
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions._
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.Test
 import ZipExt._
 
+@TestProfile(classOf[Profiles.Integration])
 @QuarkusTest
-class SoqlRepRedshiftTest extends TableCreationUtils {
+class SoqlRepRedshiftIntegrationTest extends TableCreationUtils {
   @DataSource("store")
   @Inject
   var dataSource: AgroalDataSource = _
@@ -76,7 +72,7 @@ class SoqlRepRedshiftTest extends TableCreationUtils {
         case (received, expected) => {
           assertEquals(expected, received)
           println(s"$expected == $received")
-          Utils.withTable(dataSource, "repsLiteral")("foo", "int") {
+          Utils.withTable(dataSource, "columncreator")("foo", "int") {
             (conn, tableName) =>
               schema
                 .update(tableName, "testcol")(literal.typ)

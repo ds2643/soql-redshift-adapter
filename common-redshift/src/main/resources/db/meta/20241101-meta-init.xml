@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-2.0.xsd">
+    <changeSet author="Paul Maksimovich" id="20241101-meta-init-datasets">
+        <sql>
+            create table datasets (system_id bigint primary key, obfuscation_key bytea, internal_name text, copy_number bigint, published bool, table_name varchar);
+        </sql>
+        <rollback>
+            <sql>
+                drop table datasets;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet author="Paul Maksimovich" id="20241101-meta-init-datasets-sequence">
+        <sql>
+            create sequence datasets_seq;
+        </sql>
+        <rollback>
+            <sql>
+                drop sequence datasets_seq;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet author="Paul Maksimovich" id="20241101-meta-init-columns">
+        <sql>
+            create table columns (system_id bigint primary key, dataset_id bigint, column_id bigint, user_column_id varchar, column_name varchar);
+        </sql>
+        <rollback>
+            <sql>
+                drop table columns;
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet author="Paul Maksimovich" id="20241101-meta-init-columns-sequence">
+        <sql>
+            create sequence columns_seq;
+        </sql>
+        <rollback>
+            <sql>
+                drop sequence columns_seq;
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>

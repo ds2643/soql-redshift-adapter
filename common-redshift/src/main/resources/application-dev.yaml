@@ -1,0 +1,25 @@
+quarkus:
+  datasource:
+    devservices:
+      enabled: true
+    db-kind: postgresql
+    username: quarkus
+    password: quarkus
+    db-name: meta
+    store:
+      db-kind: other
+      username: ${REDSHIFT_USER}
+      password: ${REDSHIFT_PASSWORD}
+      jdbc:
+        driver: com.amazon.redshift.jdbc.Driver
+        url: ${REDSHIFT_JDBC_URL}
+
+  liquibase:
+    schemas: public
+    change-log: db/meta/migrate.xml
+    migrate-at-start: true
+## Currently we do not have any redshift migrations, for safety lets leave this explicitly unconfigured
+#    store:
+#      schemas: public
+#      change-log: db/store/migrate.xml
+#      migrate-at-start: true

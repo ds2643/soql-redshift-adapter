@@ -14,9 +14,13 @@ import com.fasterxml.jackson.module.scala.{
   ClassTagExtensions,
   DefaultScalaModule
 }
-import com.socrata.common.converter.FiniteDurationDeserializer
+import com.socrata.common.converter.{
+  FiniteDurationDeserializer,
+  PropertiesDeserializer
+}
 import io.quarkus.jackson.ObjectMapperCustomizer
 
+import java.util.Properties
 import scala.concurrent.duration.FiniteDuration
 
 object CommonObjectMapperCustomizer {
@@ -26,6 +30,10 @@ object CommonObjectMapperCustomizer {
     simpleModule.addDeserializer(
       classOf[FiniteDuration],
       new FiniteDurationDeserializer
+    )
+    simpleModule.addDeserializer(
+      classOf[Properties],
+      new PropertiesDeserializer
     )
     objectMapper
       .registerModule(new JavaTimeModule())

@@ -1,8 +1,4 @@
-version:
-  version: 5.2
 quarkus:
-  log:
-    level: DEBUG
   container-image:
     build: true
     push: false

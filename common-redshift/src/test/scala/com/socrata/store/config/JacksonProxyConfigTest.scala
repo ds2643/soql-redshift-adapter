@@ -1,15 +1,18 @@
 package com.socrata.config
 
+import com.socrata.common.Profiles
 import com.socrata.common.config.{
   CommonObjectMapperCustomizer,
   JacksonProxyConfigBuilder,
   JacksonYamlConfigSource
 }
+import io.quarkus.test.junit.TestProfile
 import org.junit.jupiter.api.{DisplayName, Test}
 
 import java.io.File
 import java.util.Properties
 
+@TestProfile(classOf[Profiles.Unit])
 @DisplayName("Jackson Proxy Config Tests")
 class JacksonProxyConfigTest {
 
@@ -194,6 +197,25 @@ class JacksonProxyConfigTest {
     assert(1.equals(resources.cpu()))
     assert(2.equals(resources.gpu()))
     assert(3.equals(resources.storage()))
+  }
+
+  @DisplayName("Inception(java.util.properties)")
+  @Test
+  def inception(): Unit = {
+
+    trait SomeConfig {
+      def properties(): Properties
+    }
+
+    val config: SomeConfig =
+      JacksonProxyConfigBuilder(CommonObjectMapperCustomizer.Default)
+        .withSources(JacksonYamlConfigSource("data/inception.yaml"))
+        .proxy(classOf[SomeConfig])
+
+    assert(!config.properties().isEmpty)
+    assert("one value".equals(config.properties().getProperty("one")))
+    assert("two value".equals(config.properties().getProperty("two")))
+    assert("four value".equals(config.properties().getProperty("three.four")))
   }
 
 }

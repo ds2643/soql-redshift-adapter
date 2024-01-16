@@ -1,5 +1,6 @@
 package com.socrata
 
+import com.socrata.common.Profiles
 import com.socrata.common.config.ConfigProvider
 import com.socrata.datacoordinator.secondary.messaging.eurybates.{
   EurybatesConfig,
@@ -7,12 +8,13 @@ import com.socrata.datacoordinator.secondary.messaging.eurybates.{
   ZookeeperConfig
 }
 import com.socrata.store.config.RedshiftSecondaryConfig
-import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.{QuarkusTest, TestProfile}
 import jakarta.inject.Inject
 import org.junit.jupiter.api.{DisplayName, Test}
 
 import scala.concurrent.duration.Duration
 
+@TestProfile(classOf[Profiles.Unit])
 @DisplayName("Config Tests")
 @QuarkusTest class ConfigTest() {
   @Inject var configProvider: ConfigProvider = _

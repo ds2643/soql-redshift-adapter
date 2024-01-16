@@ -1,22 +1,20 @@
 package com.socrata.common.sqlizer
 
 import com.socrata.common.sqlizer.metatypes._
-
 import com.socrata.common._
 import com.socrata.soql.types._
-
 import io.agroal.api.AgroalDataSource
 import io.quarkus.agroal.DataSource
-import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.{QuarkusTest, TestProfile}
 import jakarta.inject.Inject
-import org.junit.jupiter.api.{Test}
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions._
-import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.Test
 import ZipExt._
 
+@TestProfile(classOf[Profiles.Integration])
 @QuarkusTest
-class ColumnCreatorTest extends TableCreationUtils {
+class ColumnCreatorIntegrationTest extends TableCreationUtils {
   @DataSource("store")
   @Inject
   var dataSource: AgroalDataSource = _

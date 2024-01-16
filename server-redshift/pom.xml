@@ -22,6 +22,12 @@
       <artifactId>soql-redshift-adapter-common</artifactId>
       <groupId>com.socrata</groupId>
       <version>${project.version}</version>
+    </dependency>
+    <dependency>
+      <artifactId>soql-redshift-adapter-common</artifactId>
+      <groupId>com.socrata</groupId>
+      <version>${project.version}</version>
+      <classifier>tests</classifier>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>

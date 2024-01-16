@@ -1,10 +1,11 @@
 package com.socrata.service
 
+import com.socrata.common.Profiles
 import com.socrata.soql.environment.ColumnName
 import com.socrata.common.utils.managed.ManagedUtils
 import com.socrata.datacoordinator.secondary._
 import com.socrata.datacoordinator.id._
-import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.junit.{QuarkusTest, TestProfile}
 import jakarta.inject.Inject
 import org.junit.jupiter.api.Test
 import org.joda.time.DateTime
@@ -12,6 +13,7 @@ import com.socrata.datacoordinator.util.collection.ColumnIdMap
 import com.socrata.soql.types._
 import com.socrata.store.service.RedshiftSecondary
 
+@TestProfile(classOf[Profiles.Unit])
 @QuarkusTest class RedshiftSecondaryTest() {
   @Inject var secondary: RedshiftSecondary = _
 
