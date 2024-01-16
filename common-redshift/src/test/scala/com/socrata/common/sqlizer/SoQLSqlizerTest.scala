@@ -118,6 +118,12 @@ class SoQLSqlizerTest {
         "num" -> SoQLNumber,
         "geom" -> SoQLPolygon,
         "geometry_point" -> SoQLPoint
+      ),
+      (0, "table2") -> D(
+        "text" -> SoQLText,
+        "num" -> SoQLNumber,
+        "geom" -> SoQLPolygon,
+        "geometry_point" -> SoQLPoint
       )
     )
 
@@ -1417,5 +1423,145 @@ class SoQLSqlizerTest {
       case Left(err) => fail(err.toString())
       case _         => fail()
     }
+  }
+
+  // TODO: Implement these tests.
+  @Test
+  def `test redshift join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
+  }
+
+
+  def `test redshift left join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      LEFT JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
+      )
+  }
+
+  def `test redshift right join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      RIGHT JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
+  }
+
+  def `test redshift outer join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      OUTER JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
+  }
+
+  def `test redshift inner join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      INNER JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
+  }
+
+  def `test redshift cross join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      CROSS JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
+  }
+
+  def `test redshift full join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      FULL JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
+  }
+
+  def `test redshift natural join`(): Unit = {
+    assertEquals(
+      analyzeStatement(
+      """
+      SELECT text
+      NATURAL JOIN @table2
+      ON text = @table2.text
+      """
+      ),
+      """
+      SELECT t1.text, t1.num, t2.text
+      FROM table1 AS t1 JOIN table2 AS t2
+      ON t1.num = t2.num
+      """
+    )
   }
 }
